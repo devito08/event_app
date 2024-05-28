@@ -1,10 +1,12 @@
 import React from "react";
 import Footer from "./Footer";
+import { Link } from 'react-router-dom';
+import EventList from "./EventList";
 
 
 
 
-const Home = () => {
+const Home = ({events}) => {
   return (
     <div className="bg-slate-50">
      
@@ -18,7 +20,11 @@ const Home = () => {
             
           </div>
           <div className="mx-32">
-          <button className="my-6 font-bold bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded-full" >Explore Now</button>
+          <Link to="/event-listing">
+        <button className="my-6 font-bold bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded-full">
+          Explore Now
+        </button>
+      </Link>
           </div>
         </div>
         <div className="right mx-2">
@@ -50,6 +56,7 @@ const Home = () => {
        
 
       </div>
+      <EventList events={events} />
       </div>
       <Footer/>
       

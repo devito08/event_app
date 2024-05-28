@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import Home from "./Home";
-import Create from "./create";  // Ensure the file name matches
-import Profile from "./profile";  // Ensure the file name matches
+import Create from "./create";  
+import Profile from "./profile";  
 import EventForm from "./EventForm";
 import EventList from "./EventList";
 
@@ -24,7 +24,7 @@ const Allroute = () => {
 
   const addEvent = (newEvent) => {
     // Send a POST request to add the new event to the backend
-    fetch('http://localhost:5000/api/events', {  // Ensure the URL is correct
+    fetch('http://localhost:5000/api/events', {  
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -46,11 +46,11 @@ const Allroute = () => {
 
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={<Home events={events} />} />
       <Route path="/create" element={<Create />} />
       <Route path="/profile" element={<Profile />} />
       <Route 
-        path="/event-form" 
+        path="/create-event" 
         element={<EventForm addEvent={addEvent} />} // Pass addEvent function as prop
       />
       <Route 
