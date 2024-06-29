@@ -1,12 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql2');
-const cors = require('cors');  // Import CORS
+const cors = require('cors');
+const bcrypt = require('bcrypt');
 
 const app = express();
 const port = 5000;
 
-app.use(cors());  // Use CORS middleware
+app.use(cors());
 app.use(bodyParser.json());
 
 // Database connection
@@ -25,7 +26,7 @@ db.connect(err => {
   console.log('Connected to the database');
 });
 
-// API endpoints
+// Existing endpoints
 app.get('/api/events', (req, res) => {
   db.query('SELECT * FROM events', (err, results) => {
     if (err) {
@@ -48,6 +49,26 @@ app.post('/api/events', (req, res) => {
     }
     res.status(201).json({ id: result.insertId, ...req.body });
   });
+});
+
+// Registration endpoint
+app.post('/api/register', async (req, res) => {
+  const { firstName, lastName, email, phoneNumber, password, userType } = req.body;
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const query = 'INSERT INTO users (firstName, lastName, email, phoneNumber, password, userType) VALUES (?, ?, ?, ?, ?, ?)';
+    db.query(query, [firstName, lastName, email, phoneNumber, hashedPassword, userType], (err, result) => {
+      if (err) {
+        console.error('Error inserting user:', err);
+        res.status(500).send('Internal server error');
+        return;
+      }
+      res.status(201).json({ id: result.insertId, firstName, lastName, email, phoneNumber, userType });
+    });
+  } catch (error) {
+    console.error('Error hashing password:', error);
+    res.status(500).send('Internal server error');
+  }
 });
 
 app.listen(port, () => {
