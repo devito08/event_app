@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Home from "./Home";
 import Create from "./create";  
 import Profile from "./profile";  
@@ -7,6 +7,7 @@ import EventForm from "./EventForm";
 import EventList from "./EventList";
 import Login from "./Login";
 import Register from "./Register"; // Import the Register component for registration
+import EventDetails from "./EventDetails";
 
 const Allroute = () => {
   const [events, setEvents] = useState([]);
@@ -24,14 +25,33 @@ const Allroute = () => {
       .catch(error => console.error('Error fetching events:', error));
   }, []);
 
+  // const addEvent = (newEvent) => {
+  //   // Send a POST request to add the new event to the backend
+  //   fetch('http://localhost:5000/api/events', {  
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify(newEvent)
+    
+  //   })
+  //     .then(response => {
+  //       if (!response.ok) {
+  //         throw new Error('Failed to add event');
+  //       }
+  //       return response.json();
+  //     })
+  //     .then(addedEvent => {
+  //       // Update the events state with the new event
+  //       setEvents([...events, addedEvent]);
+  //     })
+  //     .catch(error => console.error('Error adding event:', error));
+  // };
+  
   const addEvent = (newEvent) => {
-    // Send a POST request to add the new event to the backend
-    fetch('http://localhost:5000/api/events', {  
+    fetch('http://localhost:5000/api/events', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(newEvent)
+      body: newEvent // Directly pass the FormData object
     })
       .then(response => {
         if (!response.ok) {
@@ -40,7 +60,6 @@ const Allroute = () => {
         return response.json();
       })
       .then(addedEvent => {
-        // Update the events state with the new event
         setEvents([...events, addedEvent]);
       })
       .catch(error => console.error('Error adding event:', error));
@@ -54,11 +73,15 @@ const Allroute = () => {
       <Route path="/profile" element={<Profile />} />
       <Route path="/create-event" element={<EventForm addEvent={addEvent} />} />
       <Route path="/event-listing" element={<EventList events={events} />} />
-      <Route path="/login" element={<Login />} /> {/* Route for login */}
-      <Route path="/register" element={<Register />} /> {/* Route for register */}
-      
+      <Route path="/event/:eventId" element={<EventDetails events={events} />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
     </Routes>
   );
 }
 
 export default Allroute;
+
+
+
+
