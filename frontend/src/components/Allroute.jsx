@@ -1,15 +1,35 @@
 import React, { useState, useEffect } from "react";
-import { Routes, Route } from "react-router-dom";
+// import { Routes, Route} from "react-router-dom";
+import {Route, Routes,useNavigate } from 'react-router-dom'; // Assuming you are using react-router-dom for routing
+
 import Home from "./Home";
 import Create from "./create";  
 import Profile from "./profile";  
 import EventForm from "./EventForm";
 import EventList from "./EventList";
 import Login from "./Login";
-import Register from "./Register"; // Import the Register component for registration
+import Register from "./Register"; 
 import EventDetails from "./EventDetails";
 
+const LoginWrapper = () => {
+  const navigate = useNavigate();
+
+  const handleLoginSuccess = () => {
+    navigate('/'); // Redirect to the home page
+  };
+
+  return <Login onLoginSuccess={handleLoginSuccess} />;
+};
+
 const Allroute = () => {
+  
+  // const navigate = useNavigate();
+
+  // const handleLoginSuccess = () => {
+  //   navigate('/'); // Redirect to the home page
+  // };
+
+
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
@@ -25,29 +45,7 @@ const Allroute = () => {
       .catch(error => console.error('Error fetching events:', error));
   }, []);
 
-  // const addEvent = (newEvent) => {
-  //   // Send a POST request to add the new event to the backend
-  //   fetch('http://localhost:5000/api/events', {  
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify(newEvent)
-    
-  //   })
-  //     .then(response => {
-  //       if (!response.ok) {
-  //         throw new Error('Failed to add event');
-  //       }
-  //       return response.json();
-  //     })
-  //     .then(addedEvent => {
-  //       // Update the events state with the new event
-  //       setEvents([...events, addedEvent]);
-  //     })
-  //     .catch(error => console.error('Error adding event:', error));
-  // };
-  
+
   const addEvent = (newEvent) => {
     fetch('http://localhost:5000/api/events', {
       method: 'POST',
@@ -74,7 +72,9 @@ const Allroute = () => {
       <Route path="/create-event" element={<EventForm addEvent={addEvent} />} />
       <Route path="/event-listing" element={<EventList events={events} />} />
       <Route path="/event/:eventId" element={<EventDetails events={events} />} />
-      <Route path="/login" element={<Login />} />
+      {/* <Route path="/login" element={<Login />} /> */}
+      <Route path="/login" element={<LoginWrapper />} />
+     
       <Route path="/register" element={<Register />} />
     </Routes>
   );

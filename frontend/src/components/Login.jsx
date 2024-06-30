@@ -5,6 +5,7 @@ const Login = ({ onLoginSuccess }) => {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
+    
   });
 
   const handleChange = (e) => {
@@ -15,12 +16,15 @@ const Login = ({ onLoginSuccess }) => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:5000/api/login', formData);
+
       localStorage.setItem('token', response.data.token);
-      onLoginSuccess();
+      onLoginSuccess('/');
+      
     } catch (error) {
       console.error(error);
     }
   };
+  
 
   return (
     <form onSubmit={handleSubmit} className="max-w-md mx-auto mt-8 p-6 my-20 bg-white shadow-md rounded-lg">
@@ -57,3 +61,4 @@ const Login = ({ onLoginSuccess }) => {
 };
 
 export default Login;
+
