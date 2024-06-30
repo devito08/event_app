@@ -17,17 +17,18 @@ const EventList = ({ events }) => {
   return (
     <div className="events-container justify-center items-center mr-1 mt-10">
       {Object.keys(categorizedEvents).map((category) => (
-        <div key={category} className="category-section mb-10">
-          <h2 className="text-4xl font-semibold text-gray-800 mb-6 lg:px-20 mx-12">{category}</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div key={category} className="category-section mb-10 ">
+          <h2 className="text-4xl font-semibold text-gray-800 mb-6 lg:px-20 mx-12 ">{category}</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 ">
             {categorizedEvents[category].map((event, index) => (
-              <div key={index} className="event-card bg-white shadow-md rounded-lg overflow-hidden w-80 ml-32">
-                <Link to={`/event/${event.id}`} className="block">
+              <div key={index} className="event-card bg-white shadow-md rounded-lg overflow-hidden w-80 ml-32 ">
+                <Link to={`/event/${event.id}`} className="block ">
                   {/* <img
                     src={`/uploads/${event.image}`}  // Update here to fetch image from uploads directory
                     alt={event.title}
                     className="w-80 h-48 object-cover"
                   /> */}
+                  <img src={event.image} alt={event.title} className="mx-auto my-1 h-48 object-cover" />
                   <div className="p-4">
                     <h3 className="text-2xl font-semibold text-gray-800">{event.title}</h3>
                     <p className="text-gray-900 text-lg">{event.date}</p>
