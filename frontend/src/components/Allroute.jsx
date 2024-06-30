@@ -15,7 +15,7 @@ const LoginWrapper = () => {
   const navigate = useNavigate();
 
   const handleLoginSuccess = () => {
-    navigate('/'); // Redirect to the home page
+    navigate('/'); 
   };
 
   return <Login onLoginSuccess={handleLoginSuccess} />;
@@ -23,13 +23,6 @@ const LoginWrapper = () => {
 
 const Allroute = () => {
   
-  // const navigate = useNavigate();
-
-  // const handleLoginSuccess = () => {
-  //   navigate('/'); // Redirect to the home page
-  // };
-
-
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
@@ -49,7 +42,7 @@ const Allroute = () => {
   const addEvent = (newEvent) => {
     fetch('http://localhost:5000/api/events', {
       method: 'POST',
-      body: newEvent // Directly pass the FormData object
+      body: newEvent 
     })
       .then(response => {
         if (!response.ok) {
@@ -72,9 +65,8 @@ const Allroute = () => {
       <Route path="/create-event" element={<EventForm addEvent={addEvent} />} />
       <Route path="/event-listing" element={<EventList events={events} />} />
       <Route path="/event/:eventId" element={<EventDetails events={events} />} />
-      {/* <Route path="/login" element={<Login />} /> */}
+      
       <Route path="/login" element={<LoginWrapper />} />
-     
       <Route path="/register" element={<Register />} />
     </Routes>
   );
