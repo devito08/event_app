@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = ({ onLoginSuccess }) => {
   const [formData, setFormData] = useState({
@@ -19,6 +21,7 @@ const Login = ({ onLoginSuccess }) => {
 
       localStorage.setItem('token', response.data.token);
       onLoginSuccess('/');
+      toast.success("Login Successful");
       
     } catch (error) {
       console.error(error);
@@ -51,13 +54,16 @@ const Login = ({ onLoginSuccess }) => {
         />
       </div>
       <button
-        type="submit"
-        className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+        type="submit" 
+        className="w-full bg-blue-800 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
       >
         Login
       </button>
+      
+      
       <h3>Don't have an account ? <a href='/register' alt='register' className='text-blue-800 bold'>Register</a></h3>
     </form>
+    
   );
 };
 

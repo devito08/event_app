@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-// import { Routes, Route} from "react-router-dom";
 import {Route, Routes,useNavigate } from 'react-router-dom'; // Assuming you are using react-router-dom for routing
 
 import Home from "./Home";
@@ -10,6 +9,10 @@ import EventList from "./EventList";
 import Login from "./Login";
 import Register from "./Register"; 
 import EventDetails from "./EventDetails";
+import BookingForm from "./BookingForm";
+
+
+ 
 
 const LoginWrapper = () => {
   const navigate = useNavigate();
@@ -65,14 +68,16 @@ const Allroute = () => {
       <Route path="/create-event" element={<EventForm addEvent={addEvent} />} />
       <Route path="/event-listing" element={<EventList events={events} />} />
       <Route path="/event/:eventId" element={<EventDetails events={events} />} />
+      
+      <Route path="/booking/:eventId" exact component={() => <BookingForm events={events} />} />
+
       <Route path="/home" element={<Home events={events} />} /> 
       <Route path="/register" element={<Register />} />
+      <Route path="/booking" element={<BookingForm/>}/>
+      
     </Routes>
   );
 }
 
 export default Allroute;
-
-
-
 

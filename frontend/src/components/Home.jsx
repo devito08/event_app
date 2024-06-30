@@ -1,12 +1,17 @@
 import React from "react";
-import Footer from "./Footer";
 import { Link } from 'react-router-dom';
 import EventList from "./EventList";
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
 const Home = ({events}) => {
+  const handleButtonClick = () => {
+    toast.success('Stay tight in your seat. To explore more events!');
+    
+  };
+  
   return (
     <div className="bg-slate-50 justify-center items-center overflow-x-hidden">
      
@@ -22,9 +27,12 @@ const Home = ({events}) => {
           </div>
           <div className="">
           <Link to="/event-listing">
-            <button className= "ml-20 my-6 font-bold bg-blue-500 hover:bg-blue-700 text-white px-10 py-5 rounded-full">
-              Explore Now
-            </button>
+          <button
+      className="ml-20 my-6 font-bold bg-blue-500 hover:bg-blue-700 text-white px-10 py-5 rounded-full"
+      onClick={handleButtonClick}
+    >
+      Explore Now
+    </button>
           </Link>
           </div>
         </div>
@@ -62,7 +70,7 @@ const Home = ({events}) => {
       </div>
       <EventList events={events} />
       </div>
-      <Footer/>
+     
       
     </div>
     

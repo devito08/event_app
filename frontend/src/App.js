@@ -3,7 +3,9 @@ import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import Allroute from "./components/Allroute";
 import NavBar from "./components/Navbar";
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Footer from "./components/Footer";
 
 
 const App = () => {
@@ -13,7 +15,8 @@ const App = () => {
     <Router>
       <NavBar />
       <Allroute />
-      
+      <ToastContainer />
+      <Footer/>
     </Router>
   );
 }

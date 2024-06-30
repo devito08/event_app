@@ -3,9 +3,9 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql2');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken'); // Import jsonwebtoken
 const multer = require('multer');
 const path = require('path');
+const jwt = require('jsonwebtoken');
 
 const app = express();
 const port = 5000;
@@ -58,16 +58,28 @@ app.get('/api/events', (req, res) => {
 });
 
 app.post('/api/events', upload.single('image'), (req, res) => {
-  const { title, date, category, price, organizer } = req.body;
-  const image = req.file ? `/uploads/${req.file.filename}` : null; // Save the path to the uploaded image
-  const query = 'INSERT INTO events (title, date, category, price, image, organizer) VALUES (?, ?, ?, ?, ?, ?)';
-  db.query(query, [title, date, category, price, image, organizer], (err, result) => {
+  const { title, date, category, price, organizer, totalSlots, locationUrl, timing, contactNumber } = req.body;
+  const image = req.file ? `/uploads/${req.file.filename}` : null;
+  const query = 'INSERT INTO events (title, date, category, price, image, organizer, totalSlots, locationUrl, timing, contactNumber) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+  db.query(query, [title, date, category, price, image, organizer, totalSlots, locationUrl, timing, contactNumber], (err, result) => {
     if (err) {
       console.error('Error inserting event:', err);
       res.status(500).send('Internal server error');
       return;
     }
-    res.status(201).json({ id: result.insertId, title, date, category, price, image, organizer });
+    res.status(201).json({ 
+      id: result.insertId, 
+      title, 
+      date, 
+      category, 
+      price, 
+      image, 
+      organizer, 
+      totalSlots, 
+      locationUrl, 
+      timing,
+      contactNumber 
+    });
   });
 });
 
@@ -93,29 +105,38 @@ app.post('/api/register', async (req, res) => {
 
 // Login endpoint
 app.post('/api/login', (req, res) => {
-  const { email, password } = req.body;
-  const sqlQuery = 'SELECT * FROM users WHERE email = ?';
+  console.log('Login endpoint hit');
+  const email = req.body.email;
+  const password = req.body.password;
 
-  db.query(sqlQuery, [email], async (err, data) => {
+  const sqlQuery = 'SELECT * FROM users WHERE email = ?';
+  db.query(sqlQuery, [email], (err, data) => {
     if (err) {
       console.error('Error in database query:', err);
-      return res.status(500).json({ Error: 'Internal Email Error' });
+      return res.json({ Error: 'Internal Email Error' });
     }
 
-    if (data.length === 0) {
-      return res.status(404).json({ Error: 'Email Not Existed' });
+    if (data.length > 0) {
+      bcrypt.compare(password, data[0].password, (err, result) => {
+        if (err) {
+          console.error('Error comparing passwords:', err);
+          return res.json({ Error: 'Internal Logging Error' });
+        }
+
+        if (result) {
+          const token = jwt.sign(
+            { email: data[0].email },
+            'your_secret_key_here', // Replace with your actual secret key
+            { expiresIn: '1h' }
+          );
+          return res.json({ Status: 'Success', token });
+        } else {
+          return res.json({ Error: 'Password not matched' });
+        }
+      });
+    } else {
+      return res.json({ Error: 'Email Not Existed' });
     }
-
-    const match = await bcrypt.compare(password, data[0].password);
-
-    if (!match) {
-      return res.status(401).json({ Error: 'Password not matched' });
-    }
-
-    // Generate JWT token
-    const token = jwt.sign({ email: data[0].email }, 'your_secret_key_here', { expiresIn: '1h' });
-
-    res.json({ Status: 'Success', token });
   });
 });
 
