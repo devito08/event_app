@@ -15,7 +15,7 @@ const LoginWrapper = () => {
   const navigate = useNavigate();
 
   const handleLoginSuccess = () => {
-    navigate('/'); 
+    navigate('/home'); 
   };
 
   return <Login onLoginSuccess={handleLoginSuccess} />;
@@ -59,14 +59,13 @@ const Allroute = () => {
 
   return (
     <Routes>
-      <Route path="/" element={<Home events={events} />} />
+      <Route path="/" element={<LoginWrapper />} />
       <Route path="/create" element={<Create />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/create-event" element={<EventForm addEvent={addEvent} />} />
       <Route path="/event-listing" element={<EventList events={events} />} />
       <Route path="/event/:eventId" element={<EventDetails events={events} />} />
-      
-      <Route path="/login" element={<LoginWrapper />} />
+      <Route path="/home" element={<Home events={events} />} /> 
       <Route path="/register" element={<Register />} />
     </Routes>
   );
