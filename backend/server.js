@@ -31,10 +31,12 @@ app.use('/uploads', express.static('uploads'));
 
 // Database connection
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'deepak',
-  database: 'eventapp'
+  host: 'mysql-de86692-dannydevito-5066.d.aivencloud.com',
+  user: 'avnadmin',
+  password: 'AVNS_iLh5-8iJS645tqF9L2f',
+  port:'11688',
+  database: 'eventapp',
+  connectTimeout: 20000
 });
 
 db.connect(err => {
