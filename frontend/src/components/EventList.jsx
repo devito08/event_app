@@ -24,7 +24,7 @@ const EventList = ({ events }) => {
               <div key={index} className="event-card bg-white shadow-md rounded-lg overflow-hidden w-80 ml-32 ">
                 <Link to={`/event/${event.id}`} className="block ">
                   {<img
-                    src={`http://localhost:5000${event.image}`}  // Update here to fetch image from uploads directory
+                    src={`https://event-app-yha0.onrender.com${event.image}`}  // Update here to fetch image from uploads directory
                     alt={event.title}
                     className="w-80 h-48 object-cover"
                   />}

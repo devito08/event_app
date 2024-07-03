@@ -30,7 +30,7 @@ const Allroute = () => {
 
   useEffect(() => {
     // Fetch events from backend when component mounts
-    fetch('http://localhost:5000/api/events')
+    fetch('https://event-app-yha0.onrender.com/api/events')
       .then(response => {
         if (!response.ok) {
           throw new Error('Failed to fetch events');
@@ -43,7 +43,7 @@ const Allroute = () => {
 
 
   const addEvent = (newEvent) => {
-    fetch('http://localhost:5000/api/events', {
+    fetch('https://event-app-yha0.onrender.com/api/events', {
       method: 'POST',
       body: newEvent 
     })
