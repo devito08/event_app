@@ -11,7 +11,15 @@ import Register from "./Register";
 import EventDetails from "./EventDetails";
 import BookingForm from "./BookingForm";
 
+const RegisterWrapper=()=>{
+  const navigate = useNavigate();
 
+  const handleregSuccess = ()=>{
+    navigate('/login');
+  };
+  return <Register onRegisterSuccess = {handleregSuccess} />;
+
+}
  
 
 const LoginWrapper = () => {
@@ -62,7 +70,9 @@ const Allroute = () => {
 
   return (
     <Routes>
-      <Route path="/" element={<LoginWrapper />} />
+      <Route path="/" element={<LoginWrapper events={events} />} />
+      <Route path="/login" element={<LoginWrapper />} />
+
       <Route path="/create" element={<Create />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/create-event" element={<EventForm addEvent={addEvent} />} />
@@ -72,7 +82,9 @@ const Allroute = () => {
       <Route path="/booking/:eventId" exact component={() => <BookingForm events={events} />} />
 
       <Route path="/home" element={<Home events={events} />} /> 
-      <Route path="/register" element={<Register />} />
+      <Route path="/register" element={<RegisterWrapper />} />
+
+      {/* <Route path="/register" element={<Register />} /> */}
       <Route path="/booking" element={<BookingForm/>}/>
       
     </Routes>

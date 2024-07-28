@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const Register = () => {
+const Register = ({onRegisterSuccess}) => {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -20,6 +22,8 @@ const Register = () => {
     try {
       const response = await axios.post('https://event-app-yha0.onrender.com/api/register', formData);
       console.log(response.data);
+      onRegisterSuccess('/login');
+      toast.success("Register Success please Login")
     } catch (error) {
       console.error(error);
     }

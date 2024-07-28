@@ -20,13 +20,13 @@ const storage = multer.diskStorage({
     cb(null, 'uploads/');
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); // Append extension
+    cb(null, Date.now() + path.extname(file.originalname)); 
   }
 });
 
 const upload = multer({ storage });
 
-// Serve static files from the 'uploads' directory
+
 app.use('/uploads', express.static('uploads'));
 
 // Database connection
@@ -128,7 +128,7 @@ app.post('/api/login', (req, res) => {
         if (result) {
           const token = jwt.sign(
             { email: data[0].email },
-            'your_secret_key_here', // Replace with your actual secret key
+            'your_secret_key_here', 
             { expiresIn: '1h' }
           );
           return res.json({ Status: 'Success', token });
